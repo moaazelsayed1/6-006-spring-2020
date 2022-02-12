@@ -1,12 +1,12 @@
 def count_long_subarray(A):
-    '''
+    """
     Input:  A     | Python Tuple of positive integers
     Output: count | number of longest increasing subarrays of A
-    '''
+    """
     count = 1
     curr_count = 1
     max = 1
-    for i in range(1,len(A)):
+    for i in range(1, len(A)):
         # print(A[i - 1])
         # print(A[i])
         if A[i] > A[i - 1]:
@@ -26,6 +26,3 @@ def count_long_subarray(A):
     # YOUR CODE HERE #
     ##################
     return count
-
-# A = (7, 8, 5, 7, 7, 3, 2, 8)
-# print(count_long_subarray(A))
