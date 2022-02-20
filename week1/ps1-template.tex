@@ -1,0 +1,345 @@
+%
+% 6.006 problem set 1 solutions template
+%
+\documentclass[12pt,twoside]{article}
+
+\input{macros-sp20}
+\newcommand{\theproblemsetnum}{1}
+
+\title{6.006 Problem Set 1}
+
+\begin{document}
+
+\handout{Problem Set \theproblemsetnum}
+
+\setlength{\parindent}{0pt}
+\medskip\hrulefill\medskip
+
+{\bf Name:} Moaaz Elsayed
+
+\medskip
+
+% {\bf Collaborators:} Name1, Name2
+
+\medskip\hrulefill
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% See below for common and useful latex constructs. %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Some useful commands:
+%$f(x) = \Theta(x)$
+%$T(x, y) \leq \log(x) + 2^y + \binom{2n}{n}$
+% {\tt code\_function}
+
+
+% You can create unnumbered lists as follows:
+%\begin{itemize}
+%    \item First item in a list
+%        \begin{itemize}
+%            \item First item in a list
+%                \begin{itemize}
+%                    \item First item in a list
+%                    \item Second item in a list
+%                \end{itemize}
+%            \item Second item in a list
+%        \end{itemize}
+%    \item Second item in a list
+%\end{itemize}
+
+% You can create numbered lists as follows:
+%\begin{enumerate}
+%    \item First item in a list
+%    \item Second item in a list
+%    \item Third item in a list
+%\end{enumerate}
+
+% You can write aligned equations as follows:
+%\begin{align}
+%    \begin{split}
+%        (x+y)^3 &= (x+y)^2(x+y) \\
+%                &= (x^2+2xy+y^2)(x+y) \\
+%                &= (x^3+2x^2y+xy^2) + (x^2y+2xy^2+y^3) \\
+%                &= x^3+3x^2y+3xy^2+y^3
+%    \end{split}
+%\end{align}
+
+% You can create grids/matrices as follows:
+%\begin{align}
+%    A =
+%    \begin{bmatrix}
+%        A_{11} & A_{21} \\
+%        A_{21} & A_{22}
+%    \end{bmatrix}
+%\end{align}
+
+% You can include images and PDFs as follows:
+% \includegraphics[width=0.5\textwidth]{img.jpg}
+
+\begin{problems}
+
+\problem  % Problem 1
+
+\begin{problemparts}
+\problempart % Problem 1a
+  \begin{flalign*}
+    f_1 &= \log{n^n} = O(n) &\\
+    f_2 &= (\log{n})^n  = O((\log{n})^n) &\\
+    f_3 &= \log{n^6006} = O(\log{n}) &\\
+    f_4 &= (\log{n})^6006 = O((\log{n})^c) &\\
+    f_5 &= \log{\log{6006n}} = O(\log{\log{n}}) &
+  \end{flalign*}
+  solution:
+  \begin{align*}
+        (f_5, f_3, f_4, f_1, f_2) \\
+  \end{align*}
+\problempart % Problem 1b
+solution: 
+  \begin{align*}
+        (f_1, f_2, f_5, f_4, f_3) \\
+  \end{align*}
+
+\problempart % Problem 1c
+solution: 
+  \begin{align*}
+    ({f_2, f_5}, f_4, f_1, f_3) \\
+  \end{align*}
+
+\problempart % Problem 1d
+solution: 
+  \begin{align*}
+    (f_5, f_2, f_1, f_3, f_4) \\
+  \end{align*}
+
+\end{problemparts}
+
+\newpage
+\problem  % Problem 2
+
+\begin{problemparts}
+\problempart % Problem 2a
+   iterate over the given data structure starting from index {\tt i} to {\tt(i + k - 1) // 2}, swap {\tt i} with (i + k - 1) 
+   using two variables {\tt x1} and {\tt x2} to store the returned values from {\tt delete\_at(i)} and {\tt delete\_at(i + k - 1)} 
+   then use {\tt insert\_at(i, x2)} and {\tt insert\_at(i + k - 1, x1)} to complete the swap.
+   This recursive procedure makes no more than k/2 = O(k) recursive calls before reaching a base case,
+   doing O(log n) work per call, so the algorithm runs in O(k log n) time. 
+ \begin{lstlisting}
+def reverse(D, i, k):
+    if k < 2:
+        return
+    
+    x1 = D.delete_at(i);
+    x2 = D.delete_at(i + k - 1);
+    D.insert_at(i, x2);
+    D.insert_at(i + k - 1, x1);
+    reverse(D, i + 1, k - 2)
+
+\end{lstlisting}
+
+
+\problempart % Problem 2b
+  we can solve it recusively by setting the base case that is k == 0 then do nothing and recusively use 
+  {\tt delete\_at(i + k - 1)} ans store the returned value in {\tt x1} then we check if {\tt j} if bigger 
+  than {\tt i} we do {\tt insert\_at(j - 1, x1)} as deleting an element make a shift by one in the desired 
+  index to insert at else if not {\tt j > i} we {\tt insert\_at(j, x1)}, then call {\tt move(D, i, k - 1, j)}
+  This recursive procedure makes no more than k = O(k) recursive calls before reaching a base case,
+  doing O(log n) work per call, so the algorithm runs in O(k log n) time. 
+ 
+ \begin{lstlisting}
+def move(D, i, k, j):
+    if(k == 0):
+        return
+
+    x1 = D.delete_at(i + k - 1);
+
+    if j > i:
+        D.insert_at(j - 1, x1)
+    else:
+        D.insert_at(j, x1)
+
+
+    move(D, i, k - 1, j)
+\end{lstlisting}
+\end{problemparts}
+
+\newpage
+\problem  % Problem 3
+
+\problem  % Problem 4
+
+\begin{problemparts}
+\problempart % Problem 4a
+  To support {\tt insert\_first(x)} in $O(1)$ time we can use {\tt L.head} pointer by make {\tt x.next} equals the 
+  head pointer then make {\tt L.head} points to the node {\tt x}. 
+  This algorithm does oconstant-time operations in so it runs in O(1). \\ 
+  \\
+  To support {\tt insert\_last(x)} in $O(1)$ time we can use {\tt L.tail} pointer by make {\tt L.tail.next} points 
+  to the Node {\tt x} then make {\tt L.tail} points to the node {\tt x}.
+  This algorithm does oconstant-time operations in so it runs in O(1). \\
+  \\
+  To support {\tt delete\_first()} in $O(1)$ time we make {\tt L.head} points to {\tt L.head.next}. 
+  (assuming that {\tt L.head} exits) 
+  This algorithm does oconstant-time operations in so it runs in O(1). \\
+  \\
+  To support {\tt delete\_last()} in $O(1)$ time we make {\tt L.tail} points to {\tt L.tail.prev}.
+  (assuming that {\tt L.tail} exits)
+  This algorithm does oconstant-time operations in so it runs in O(1). \\
+  \\
+\problempart % Problem 4b
+  \begin{itemize}
+    \item make the head pointer of {\tt L2} points to {\tt x1}.
+    \item make the tail pointer of {\tt L2} points to {\tt x2}.
+    \item if {\tt x1} is the head
+      \begin{itemize}
+        \item make {\tt x1.prev} equals {\tt x2.next}
+      \end{itemize}
+    \item if {\tt x1} is \textbf{NOT} the head
+      \begin{itemize}
+        \item make {\tt x1.prev.next} equals {\tt x2.next}
+      \end{itemize}
+    \item if {\tt x2} is the tail
+      \begin{itemize}
+          \item make the tail equals {\tt x1.prev}
+      \end{itemize}
+    \item if {\tt x1} is \textbf{NOT} the tail
+      \begin{itemize}
+        \item make {\tt x2.next.prev} equals {\tt x1.prev}
+      \end{itemize}
+    \item set {\tt x1.prev} and {\tt x2.next} to {\tt None}
+    \item return {\tt L2}
+ \end{itemize}
+\problempart % Problem 4c
+  \begin{itemize}
+    \item make ${\tt L_2.head.prev}$ equals to {\tt x}. 
+    \item save {\tt x.next} in {\tt xn} variable.
+    \item make {\tt x.next} equals {\tt L2.head}.
+    \item make {\tt L2.tail.next} equals {\tt xn}.
+    \item if x is the tail of L1
+      \begin{itemize}
+        \item make {\tt L1.tail} equals {\tt L2.tail}.
+      \end{itemize}
+    \item if x is \textbf{not} the tail of L1
+      \begin{itemize}
+        \item make {\tt xn.prev} equals {\tt L2.tail}.
+      \end{itemize}
+  \end{itemize}
+
+\problempart 
+\begin{lstlisting}
+
+class Doubly_Linked_List_Node:
+    def __init__(self, x):
+        self.item = x
+        self.prev = None
+        self.next = None
+
+    def later_node(self, i):
+        if i == 0: return self
+        assert self.next
+        return self.next.later_node(i - 1)
+
+class Doubly_Linked_List_Seq:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+
+    def __iter__(self):
+        node = self.head
+        while node:
+            yield node.item
+            node = node.next
+
+    def __str__(self):
+        return '-'.join([('(%s)' % x) for x in self])
+
+    def build(self, X):
+        for a in X:
+            self.insert_last(a)
+
+    def get_at(self, i):
+        node = self.head.later_node(i)
+        return node.item
+
+    def set_at(self, i, x):
+        node = self.head.later_node(i)
+        node.item = x
+
+    def insert_first(self, x):
+        node = Doubly_Linked_List_Node(x)
+        if self.head is None:
+            self.head = node
+            self.tail = node
+        else:
+            node.next = self.head
+            self.head.prev = node
+            self.head = node
+            
+
+
+    def insert_last(self, x):
+        node = Doubly_Linked_List_Node(x)
+        if self.head is None:
+            self.head = node
+            self.tail = node
+        else:
+            self.tail.next = node
+            node.prev = self.tail
+            self.tail = node
+
+            
+
+    def delete_first(self):
+        x = self.head.item
+        self.head = self.head.next
+        # if we the first ans last elements are the same node
+        if self.head is None:
+            self.tail = None
+        else:
+            self.head.prev = None
+
+        return x
+
+    def delete_last(self):
+        x = self.tail.item
+        self.tail = self.tail.prev 
+        # if we the first ans last elements are the same node
+        if self.tail is None:
+            self.head = None
+        else:
+            self.tail.next = None
+
+        return x
+
+    def remove(self, x1, x2):
+        L2 = Doubly_Linked_List_Seq()
+        L2.head = x1
+        L2.tail = x2
+        if x1 == self.head:
+            x1.prev = x2.next
+        else:
+            x1.prev.next = x2.next
+
+        if x2 == self.tail:
+            self.tail = x1.prev
+        else:
+            x2.next.prev = x1.prev
+
+        x1.prev = None
+        x2.next = None
+        return L2
+
+    def splice(self, x, L2):
+        L2.head.prev = x
+        xn = x.next
+        x.next = L2.head
+        L2.tail.next = xn
+        if x == self.tail:
+            self.tail = L2.tail
+        else:
+            xn.prev = L2.tail
+\end{lstlisting}
+\end{problemparts}
+
+\end{problems}
+
+\end{document}
