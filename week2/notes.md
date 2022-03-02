@@ -67,6 +67,8 @@ def prefix_max(A, i): # returns index of the maximum in A[:i + 1]
 In `selection_sort()` analysis T(n - 1) + theta(n) -> 1 + 2 + 3 + ... + n = theta(n^2) 
 so we can do the substitution: T(n) = theta(n^2)
 
+# lecture 4. Hashing 
+
 ## Comparison (search/sort) model:
 - only operations allowed are Comparisons.
 - time cost = # Comparisons. => lg(n) to search/ nlg(n) to sort.
