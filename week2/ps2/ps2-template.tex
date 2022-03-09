@@ -1,0 +1,216 @@
+%
+% 6.006 problem set 2 solutions template
+%
+\documentclass[12pt,twoside]{article}
+
+\input{macros-sp20}
+\newcommand{\theproblemsetnum}{2}
+
+\title{6.006 Problem Set 2}
+
+\begin{document}
+
+\handout{Problem Set \theproblemsetnum}
+
+\setlength{\parindent}{0pt}
+\medskip\hrulefill\medskip
+
+{\bf Name:} Your Name
+
+\medskip
+
+{\bf Collaborators:} Name1, Name2
+
+\medskip\hrulefill
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% See below for common and useful latex constructs. %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Some useful commands:
+%$f(x) = \Theta(x)$
+%$T(x, y) \leq \log(x) + 2^y + \binom{2n}{n}$
+% {\tt code\_function}
+
+
+% You can create unnumbered lists as follows:
+%\begin{itemize}
+%    \item First item in a list
+%        \begin{itemize}
+%            \item First item in a list
+%                \begin{itemize}
+%                    \item First item in a list
+%                    \item Second item in a list
+%                \end{itemize}
+%            \item Second item in a list
+%        \end{itemize}
+%    \item Second item in a list
+%\end{itemize}
+
+% You can create numbered lists as follows:
+%\begin{enumerate}
+%    \item First item in a list
+%    \item Second item in a list
+%    \item Third item in a list
+%\end{enumerate}
+
+% You can write aligned equations as follows:
+%\begin{align}
+%    \begin{split}
+%        (x+y)^3 &= (x+y)^2(x+y) \\
+%                &= (x^2+2xy+y^2)(x+y) \\
+%                &= (x^3+2x^2y+xy^2) + (x^2y+2xy^2+y^3) \\
+%                &= x^3+3x^2y+3xy^2+y^3
+%    \end{split}
+%\end{align}
+
+% You can create grids/matrices as follows:
+%\begin{align}
+%    A =
+%    \begin{bmatrix}
+%        A_{11} & A_{21} \\
+%        A_{21} & A_{22}
+%    \end{bmatrix}
+%\end{align}
+
+% You can include images and PDFs as follows:
+% \includegraphics[width=0.5\textwidth]{img.jpg}
+
+\begin{problems}
+
+\problem  % Problem 1
+
+\begin{problemparts}
+\problempart % Problem 1a
+An example of embedding images, in case you want to include a drawing of a tree.
+% \begin{center}
+%   \includegraphics[width=0.5\textwidth]{img.jpg}
+% \end{center}
+\begin{flalign*}
+&a = 2 &\\
+&b = 2 &\\
+&f(n) = O(n) = n^k (\log{n})^p &\\
+&k = 1 &\\
+&p = 0 &\\
+  &\log{a}_b = 1 = k \longrightarrow \underline{\textbf{case 2}} &\\ 
+\end{flalign*}
+solution:
+\begin{flalign*}
+  O(n \log{n}) 
+\end{flalign*}
+
+\problempart % Problem 1b
+\begin{flalign*}
+&a = 3 &\\
+&b = \sqrt{2} &\\
+&f(n) = O(n^4) = n^k (\log{n})^p &\\
+&k = 4 &\\
+&p = 0 &\\
+&\log{a}_b < k \longrightarrow \underline{\textbf{case 3}} &\\ 
+\end{flalign*}
+solution:
+\begin{flalign*}
+  O(n^4)
+\end{flalign*}
+
+\problempart % Problem 1c
+\begin{flalign*}
+&a = 2 &\\
+&b = 2 &\\
+  &f(n) = 5n\log{n} = n^k (\log{n})^p &\\
+&k = 1 &\\
+&p = 1 &\\
+&\log{a}_b = 1 = k \longrightarrow \underline{\textbf{case 2}} &\\ 
+\end{flalign*}
+solution:
+\begin{flalign*}
+  n (\log{n})^2 
+\end{flalign*}
+
+\problempart % Problem 1d
+\textbf{substitute} $T(n) = n^2$
+\begin{flalign*}
+  &n^2 = (n - 2)^2 + \theta(n)&\\
+  &4n - 4 = \theta(n) &     \qed
+\end{flalign*}
+
+\end{problemparts}
+  
+
+\newpage
+
+\problem  % Problem 2
+
+
+\begin{problemparts}
+
+\problempart % Problem 2a
+  \textbf{Selection sort} will be the best,since it is \textbf{in-place} and we can do {\tt get\_at(i)} \\
+  in $\theta(1)$ and 
+  {\tt set\_at(i, x)} in $\theta(n \log{n})$ and \textbf{Selection sort} does {\tt get\_at(i)} $\theta(n^2)$ times and 
+  {\tt set\_at(i, x)} $\theta(n)$ time. The overall complexity is $\theta(n^2 \log{n})$. \\
+  Insertion sort is \textbf{in-place} algorithm but it does {\tt get\_at(i)} $\theta(n^2)$ times and 
+  {\tt set\_at(i, x)} $\theta(n^2)$ time. The overall complexity is $\theta(n^3 \log{n})$. \\
+  merge sort is  not an \textbf{in-place} algorithm. \\
+
+\problempart % Problem 2b
+  \textbf{Merge sort} will be the best, since it does the minimum number of comparasions between \textbf{Selection sort} 
+  and \textbf{Insertion sort} as follows: 
+  \begin{flalign*}
+    &\text{Merge sort} \rightarrow (n - 1) \text{ comparasions} \rightarrow \theta(n \log^2{n}) &\\
+    &\text{Selection sort} \rightarrow n! \text{ comparasions} \rightarrow \theta(n^2) &\\
+    &\text{Insertion sort} \rightarrow \frac{n^2 - 3n}{2} \text{ comparasions} \rightarrow \theta(n^2) &\\
+  \end{flalign*}
+\problempart % Problem 2c
+  \textbf{Insertion sort} will be the best, Selection sort and Merge sort time complexity is independent
+  on the input ($\theta(n^2)$, $\theta(n\log{n})$ ) but Insertion sort is not so if we do $\log{\log{n}}$
+  swaps this means that Insertion sort will perform only $\log{\log{n}}$ swaps to undo all inversions which 
+  is $O(n)$, then the overall running time is $O(n)$.
+
+\end{problemparts}
+
+\newpage
+\problem  % Problem 3
+He can apply the binary search concept as follows: 
+\begin{enumerate}
+  \item  Go to the midle of the island $(n / 2)$th kilometer.
+  \item  Use the tracking device to determine whether he is north or south of his currunt place. 
+  \item  Use the telepotation and go to the middle of the distance between currunt place and water in this direction.
+  \item Repeat step 2 and 3 till you find Datum.
+\end{enumerate}
+since Datum is definitely exists in the island this algorithm will find him and terminate in $O(\log{k})$ 
+locations got checked.
+
+\newpage
+\problem  % Problem 4
+we need
+\begin{enumerate}
+  \item a sorted array A(id, $m_v$, b) uses the ID as a key. has $m_v$ as a pointer to a linked list containing
+  all viewer v messages and a boolean b tells if he is banned or not. 
+  \item a linked list L containing all sent messages to return last k. 
+\end{enumerate}
+To support {\tt build(V)} initialize an empty array with size $n = |V|$, set all linked lists $m_v$ to Null, 
+all p to flase, and sort the array in $O(n \log{n})$ time. 
+
+To support {\tt send(v, m)} do a binary search in A to check if viewer v is banned using b in $O(\log{n})$, Append the 
+message in both $m_v$ and L in O(1), so this takes $\log{n}$.
+
+To support {\tt recent(k)} if L contains $c < k$ element return it in o(c), else we should keep a pointer at the 
+begining of the last k elements and start returning from this pointer till the end of L which takes $O{\log{n}}$. 
+
+to support {\tt ban(v)} do a binary search in A (takes $O{\log{n}}$) and set b to true then start deleting his messages linked list
+which takes $o(n_v)$, so this algorithm takes $O(n_v + \log{n})$. 
+
+
+\newpage
+\problem  % Problem 5
+
+\begin{problemparts}
+\problempart % Problem 5a
+\problempart % Problem 5b
+\problempart Submit your implementation to {\small\url{alg.mit.edu}}.
+\end{problemparts}
+
+\end{problems}
+
+\end{document}
