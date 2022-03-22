@@ -163,20 +163,20 @@ the first approach in part \textbf{(a)} fits well in this case with a modificati
 \begin{problemparts}
 \problempart % Problem 5a
   we aim to structure a hash table by hashing evey k-length substring in $A$ so we can search for it in $O(1)$, 
-  since $A$ and $K$ is given we can calcutale (the weight) of substring of length $K$ as follows: 
+  since $A$ and $K$ is given we can calcutale the frequancy array of substring of length $K$ as follows: 
   \begin{enumerate}
-    \item use \textbf{ASCII} code as the weight of a letter. 
-    \item take the first k letter $K$ and sum thier weights. 
-    \item create a hash table by hashing the sum and insert it in form $(S, i)$ where $i$ is a counter
+    \item use use array of length 26 initialized to zero.
+    \item create a frequancy array for every k-length substring in A.
+    \item create a hash table by hashing the frequancy array(tuple) and insert it in form $(S, i)$ where $i$ is a counter
       to determine number of anagrams of this weight.
     \item erase the first element in $K$ and append the next letter in $A$ to $K$ and hash its sum of weights. 
     \item repeat step \textbf{(4)} till the end of $A$.
   \end{enumerate}
-  given string $B$ with length $k$ we can calcutale its sum in $O(K)$, search for it in the 
-  k  hash table and return $i$ in $O(1)_exp$.
+  given string $B$ with length $k$ we can calcutale its frequancy array in $O(K)$, search for it in the 
+  k hash table and return $i$ in $O(1)_exp$.
 \problempart % Problem 5b
-  we can hash every (weight) of string $S_i$ in $\textbf{\textit{S}}$ in $O(nk)$, calcutale the weight of \textbf{\textit{T}}
-  in $O(\textbf{\textit{T}})$ and search for it in the hash table in $O(1)$.
+  we can hash every frequancy array of string $S_i$ in $\textbf{\textit{S}}$ in $O(nk)$, calcutale frequancy arrays for every k-length substring in \textbf{\textit{T}}
+  in and hash them $O(\textbf{\textit{T}})$ and search for it in the hash table in $O(1)_exp$.
   \newpage
 \problempart 
 \begin{lstlisting}
