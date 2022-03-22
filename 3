@@ -1,0 +1,63 @@
+def weight(str):
+    sum = 0; 
+    for _ in str:
+        sum += ord(_)
+
+    return sum 
+
+def count_anagram_substrings(T, S):
+    '''
+    Input:  T | String
+            S | Tuple of strings S_i of equal length k < |T|
+    Output: A | Tuple of integers a_i:
+              | the anagram substring count of S_i in T
+    '''
+    A = []
+    for s in range(len(S)):
+        hsh = {}
+        k = len(S[s])
+        str = T[0:k]
+        # print(S[s])
+        # print(k)
+        # print(str)
+        wstr = weight(str)
+        hsh[wstr] = 1
+        for i in range(1, len(T) - k):
+            str = T[i:i+k]
+            # print(str)
+            wstr = weight(str)
+            if wstr in hsh.keys():
+                hsh[wstr] += 1
+            else:
+                hsh[wstr] = 1
+
+            print(str)
+                    
+            if  weight(str) == weight(S[s]):
+                print(str, 'ok')
+            else:
+                print(str)
+
+        
+        print(S[s])
+        print(hsh)
+        # for h,i in hsh:
+        #     print(h, i, end='\t')
+
+        # print()
+        print(weight(S[s]))
+        print(hsh[weight(S[s])])
+        A.append(hsh[weight(S[s])])
+        # if weight(S[s]) in hsh.keys():
+        #     A[s] = hsh[weight(S[s])];
+        # else:
+        #     A[s] = 0
+        #
+        
+
+    return tuple(A)
+
+# count_anagram_substrings('lrldrrrllddrrlllrddd',('ldl', 'rld'))
+# count_anagram_substrings('esleastealaslatet', ('tesla'))
+# count_anagram_substrings('hjjijjhhhihhjjhjjhijjihjjihijiiihhihjjjihjjiijjijjhhjijjiijhjihiijjiiiijhihihhiihhiiihhiijhhhiijhijj',('jihjhj', 'hhjiii', 'ihjhhh', 'jjjiji'))
+count_anagram_substrings('hjjijjhhhihhjjhjjhijjihjjihijiiihhihjjjihjjiijjijjhhjijjiijhjihiijjiiiijhihihhiihhiiihhiijhhhiijhijj',('jihjhj', 'hhjiii'))

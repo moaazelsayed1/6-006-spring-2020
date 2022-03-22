@@ -1,0 +1,232 @@
+%
+% 6.006 problem set 3 solutions template
+%
+\documentclass[12pt,twoside]{article}
+
+\input{macros-sp20}
+\newcommand{\theproblemsetnum}{3}
+
+\title{6.006 Problem Set \theproblemsetnum}
+
+\begin{document}
+
+\handout{Problem Set \theproblemsetnum}
+
+\setlength{\parindent}{0pt}
+\medskip\hrulefill\medskip
+
+{\bf Name:} Your Name
+
+\medskip
+
+{\bf Collaborators:} Name1, Name2
+
+\medskip\hrulefill
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% See below for common and useful latex constructs. %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Some useful commands:
+%$f(x) = \Theta(x)$
+%$T(x, y) \leq \log(x) + 2^y + \binom{2n}{n}$
+% {\tt code\_function}
+
+
+% You can create unnumbered lists as follows:
+%\begin{itemize}
+%    \item First item in a list
+%        \begin{itemize}
+%            \item First item in a list
+%                \begin{itemize}
+%                    \item First item in a list
+%                    \item Second item in a list
+%                \end{itemize}
+%            \item Second item in a list
+%        \end{itemize}
+%    \item Second item in a list
+%\end{itemize}
+
+% You can create numbered lists as follows:
+%\begin{enumerate}
+%    \item First item in a list
+%    \item Second item in a list
+%    \item Third item in a list
+%\end{enumerate}
+
+% You can write aligned equations as follows:
+%\begin{align}
+%    \begin{split}
+%        (x+y)^3 &= (x+y)^2(x+y) \\
+%                &= (x^2+2xy+y^2)(x+y) \\
+%                &= (x^3+2x^2y+xy^2) + (x^2y+2xy^2+y^3) \\
+%                &= x^3+3x^2y+3xy^2+y^3
+%    \end{split}
+%\end{align}
+
+% You can create grids/matrices as follows:
+%\begin{align}
+%    A =
+%    \begin{bmatrix}
+%        A_{11} & A_{21} \\
+%        A_{21} & A_{22}
+%    \end{bmatrix}
+%\end{align}
+
+% You can include images and PDFs as follows:
+% \includegraphics[width=0.5\textwidth]{img.jpg}
+
+\begin{problems}
+
+\problem  % Problem 1
+
+\begin{problemparts}
+\problempart % Problem 1a
+ \includegraphics[width=0.5\textwidth]{img1.png}
+
+\problempart % Problem 1b
+13 as a brute force solution.
+\end{problemparts}
+
+\newpage
+
+\problem  % Problem 2
+
+\begin{problemparts}
+\problempart % Problem 2a
+  they should choose their IDs such that $|(ak_1 + b) - (ak_2 - b)| = cn$ where c is any positive integer numbere 
+  which implies that $k_1 \equiv k_2 \mod n$ ,so it's guaranted.
+\problempart % Problem 2b
+the privious approach will not work as we devide by $n$, but this division helps to make adjacent $k_1$ and $k_2$
+collide, so it's guaranted if $k_1 - k_2 < 2$.
+\problempart % Problem 2c
+  the probability of collisions in this case is $1/n$, then if $n > 1$ it's not guaranted.
+\end{problemparts}
+
+\newpage
+
+\problem  % Problem 3
+
+\begin{problemparts}
+\problempart % Problem 3a
+Let’s assume that each string is stored sequentially in a contiguous chunk 
+of memory, in an encoding such that the numerical representation of each charac-
+ter is bounded above by some constant number k (e.g. $127$ in case of ascii code),
+ where the numerical representation of one 
+character $c_i$ is smaller than that of another character $c_j$ if $c_i$ comes before $c_j$ in the 
+  English alphabet. Then each string can be thought of as an integer between $0$ and u = $k^{64\log_4{n}} 
+  = O(n^{64\log_4{k}}) = O(n^{O(1)})$ ,stored in a constant number of machine words, so 
+  can be sorted using radix sort in worst-case $O(n + n \log_n{n^{O(1)}}) = O(n)$ time.
+
+\problempart % Problem 3b
+  as the number of years is bounded by some range we can use radix sort to sort it in $O(n)$ time.
+\problempart % Problem 3c
+  multiply all numbers by $n^3$, then we have integers in range $[0,4n^3]$, use radix sort 
+  to sort them in $O(n)$ time.
+\problempart % Problem 3d
+  use \textit{merge sort} to sort them in $O(nlog{n})$ as we can only compare every pair to determine which
+  one is older.
+\end{problemparts}
+
+\newpage
+
+\problem  % Problem 4
+
+\begin{problemparts}
+\problempart % Problem 4a
+  if the largest number of reams in a box is known (in $O(n)$) we can use radix sort to sort them 
+  (saving their original indicies in $(b_i, i)$) in $O(n)$ time then we can use \textit{two-finger algorithm} 
+  as follows
+  \begin{itemize}
+      \item if $b_i + b_j < r$ increment the left pointer.
+      \item if $b_i + b_j > r$ increment the right pointer.
+      \item if $b_i + b_j = r$ check if $|i - j| < \frac{n}{10}$.
+        \begin{itemize}
+      \item if $|i - j| = \frac{n}{10}$ then there is a close pair and algorithm terminates.
+      \item if $|i - j| \neq \frac{n}{10}$ there is no close pair, since which pointer moves 
+       $b_i + b_j \neq r$ as the array is sorted and \textbf{no two boxes contain the same number of reams}
+       ans algorithm terminates.
+        \end{itemize}
+  \end{itemize}
+  if the largest number of reams is unknown we can hash them in $O(n)$ time saving their indicies like $(b_i, i)$
+  and loop over the boxes and search for $(r - b_i)$ in the hash table in $O(1)$ and this takes $O(n)_{exp}$.
+  \problempart % Problem 4b
+the first approach in part \textbf{(a)} fits well in this case with a modification that evey box has 
+  number of reams $> n$ do not consider it in the new data structure $[(b_1, 1), (b_2, 2), \cdots]$.
+
+\end{problemparts}
+
+\newpage
+
+\problem  % Problem 5
+
+\begin{problemparts}
+\problempart % Problem 5a
+  we aim to structure a hash table by hashing evey k-length substring in $A$ so we can search for it in $O(1)$, 
+  since $A$ and $K$ is given we can calcutale (the weight) of substring of length $K$ as follows: 
+  \begin{enumerate}
+    \item use \textbf{ASCII} code as the weight of a letter. 
+    \item take the first k letter $K$ and sum thier weights. 
+    \item create a hash table by hashing the sum and insert it in form $(S, i)$ where $i$ is a counter
+      to determine number of anagrams of this weight.
+    \item erase the first element in $K$ and append the next letter in $A$ to $K$ and hash its sum of weights. 
+    \item repeat step \textbf{(4)} till the end of $A$.
+  \end{enumerate}
+  given string $B$ with length $k$ we can calcutale its sum in $O(K)$, search for it in the 
+  k  hash table and return $i$ in $O(1)_exp$.
+\problempart % Problem 5b
+  we can hash every (weight) of string $S_i$ in $\textbf{\textit{S}}$ in $O(nk)$, calcutale the weight of \textbf{\textit{T}}
+  in $O(\textbf{\textit{T}})$ and search for it in the hash table in $O(1)$.
+  \newpage
+\problempart 
+\begin{lstlisting}
+def freq(str):
+    arr = [0] * 26
+    for c in str:
+        arr[ord(c) - ord('a')] += 1
+    
+    return arr
+
+
+def count_anagram_substrings(T, S):
+    '''
+    Input:  T | String
+            S | Tuple of strings S_i of equal length k < |T|
+    Output: A | Tuple of integers a_i:
+              | the anagram substring count of S_i in T
+    '''
+    A = [0] * len(S) 
+    frq = [0] * 26
+    hsh = {}
+    k = len(S[0])
+    for i in range(len(T)):
+        frq[ord(T[i]) - ord('a')] += 1;
+        if i > k - 1:
+            frq[ord(T[i - k]) - ord('a')] -= 1;
+        if i >= k - 1:
+            key = tuple(frq) # tuple is a hashable type
+            if key in hsh:
+                hsh[key] += 1 
+            else:
+                hsh[key] = 1 
+
+    
+        
+    for i in range(len(S)):
+        arr = freq(S[i])
+        key = tuple(arr)
+        if key in hsh:
+            A[i] = hsh[key]
+
+
+                
+    
+
+    return tuple(A)
+
+\end{lstlisting}
+\end{problemparts}
+
+\end{problems}
+
+\end{document}
