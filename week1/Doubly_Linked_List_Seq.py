@@ -62,7 +62,7 @@ class Doubly_Linked_List_Seq:
     def delete_first(self):
         x = self.head.item
         self.head = self.head.next
-        # if we the first ans last elements are the same node
+        # if the first and last elements are the same node
         if self.head is None:
             self.tail = None
         else:
@@ -73,7 +73,7 @@ class Doubly_Linked_List_Seq:
     def delete_last(self):
         x = self.tail.item
         self.tail = self.tail.prev 
-        # if we the first ans last elements are the same node
+        # if first ans last elements are the same node
         if self.tail is None:
             self.head = None
         else:

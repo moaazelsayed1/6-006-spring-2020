@@ -179,11 +179,11 @@ def move(D, i, k, j):
   \\
   To support {\tt delete\_first()} in $O(1)$ time we make {\tt L.head} points to {\tt L.head.next}. 
   (assuming that {\tt L.head} exits) 
-  This algorithm does oconstant-time operations in so it runs in O(1). \\
+  This algorithm does a constant-time operations in so it runs in O(1). \\
   \\
   To support {\tt delete\_last()} in $O(1)$ time we make {\tt L.tail} points to {\tt L.tail.prev}.
   (assuming that {\tt L.tail} exits)
-  This algorithm does oconstant-time operations in so it runs in O(1). \\
+  This algorithm does a constant-time operations in so it runs in O(1). \\
   \\
 \problempart % Problem 4b
   \begin{itemize}
@@ -291,7 +291,7 @@ class Doubly_Linked_List_Seq:
     def delete_first(self):
         x = self.head.item
         self.head = self.head.next
-        # if we the first ans last elements are the same node
+        # if the first and last elements are the same node
         if self.head is None:
             self.tail = None
         else:
@@ -302,7 +302,7 @@ class Doubly_Linked_List_Seq:
     def delete_last(self):
         x = self.tail.item
         self.tail = self.tail.prev 
-        # if we the first ans last elements are the same node
+        # if the first and last elements are the same node
         if self.tail is None:
             self.head = None
         else:
