@@ -1,4 +1,6 @@
 #include <bits/stdc++.h>
+#include <cstdlib>
+#include <vector>
 
 using namespace std;
 
@@ -6,87 +8,130 @@ template <typename T> class Graph {
 private:
   map<T, list<T>> adj;
   bool directed;
-  map<T, bool> vertices;
   vector<T> dfs_order;
+  vector<T> bfs_order;
 
 public:
   Graph(bool directed = false) : directed(directed) {}
 
   void addEdge(T u, T v) {
-    vertices[u] = true;
-    vertices[v] = true;
     adj[u].push_back(v);
     if (!directed)
       adj[v].push_back(u);
   }
 
-  void reset() { dfs_order.clear(); }
+  void reset() {
+    dfs_order.clear();
+    bfs_order.clear();
+  }
 
-  map<T, T> bfs(T s) {
+  void bfs(T s, map<T, bool> &visited) {
     queue<T> q;
     q.push(s);
-    map<T, T> parent;
-    parent[s] = s;
     while (!q.empty()) {
       T u = q.front();
       q.pop();
-      cout << u << " ";
+      bfs_order.push_back(u);
       for (auto v : adj[u]) {
-        if (parent.find(v) == parent.end()) {
+        if (!visited[v]) {
           q.push(v);
-          parent[v] = u;
+          visited[v] = true;
         }
       }
     }
-    return parent;
   }
 
-  vector<T> dfs(T s) {
+  vector<T> bfs_traversal() {
+    reset();
     map<T, bool> visited;
-    dfs_order.push_back(s);
+    for (auto v : adj) {
+      if (!visited[v.first]) {
+        visited[v.first] = true;
+        bfs(v.first, visited);
+      }
+    }
+    return bfs_order;
+  }
+
+  void dfs(T s, map<T, bool> &visited, bool topsort = false) {
+
+    if (!topsort) {
+      dfs_order.push_back(s);
+    }
     for (auto v : adj[s]) {
       if (!visited[v]) {
         visited[v] = true;
-        dfs(v);
+        dfs(v, visited, topsort);
+      }
+    }
+    if (topsort) {
+      dfs_order.push_back(s);
+    }
+  }
+
+  vector<T> dfs_traversal() {
+    reset();
+    map<T, bool> visited;
+    for (auto v : adj) {
+      if (!visited[v.first]) {
+        visited[v.first] = true;
+        dfs(v.first, visited);
       }
     }
     return dfs_order;
   }
 
   vector<T> topological_sort() {
-    vector<T> v = dfs(vertices.begin()->first);
-    reverse(v.begin(), v.end());
-    return v;
+    reset();
+    map<T, bool> visited;
+    for (auto v : adj) {
+      if (!visited[v.first]) {
+        visited[v.first] = true;
+        dfs(v.first, visited, true);
+      }
+    }
+    reverse(dfs_order.begin(), dfs_order.end());
+    return dfs_order;
   }
 };
-// int main (int argc, char *argv[])
+
 int main() {
   Graph<char> g(true);
   g.addEdge('A', 'D');
-  g.addEdge('A', 'B');
-  g.addEdge('A', 'C');
-  g.addEdge('D', 'E');
-  g.addEdge('D', 'F');
-  g.addEdge('B', 'G');
-  g.addEdge('B', 'H');
-  g.addEdge('C', 'I');
-  g.addEdge('C', 'J');
+  g.addEdge('D', 'H');
+  g.addEdge('D', 'G');
+  g.addEdge('C', 'A');
+  g.addEdge('C', 'B');
+  g.addEdge('B', 'D');
+  g.addEdge('E', 'D');
+  g.addEdge('E', 'F');
+  g.addEdge('E', 'A');
+  g.addEdge('F', 'J');
+  g.addEdge('F', 'K');
+  g.addEdge('H', 'I');
+  g.addEdge('H', 'J');
+  g.addEdge('K', 'J');
+  g.addEdge('J', 'M');
+  g.addEdge('J', 'L');
+  g.addEdge('I', 'L');
+  g.addEdge('G', 'I');
 
   cout << "BFS: ";
-  g.bfs('A');
+  vector<char> b = g.bfs_traversal();
+  for (auto c : b)
+    cout << c << " ";
   cout << endl;
 
-  vector<char> d = g.dfs('A');
+  vector<char> d = g.dfs_traversal();
   cout << "DFS: ";
   for (auto v : d)
     cout << v << " ";
   cout << endl;
   g.reset();
-  vector<char> srt = g.topological_sort();
+
   cout << "Topological Sort: ";
-  for (auto v : srt) {
+  vector<char> t = g.topological_sort();
+  for (auto v : t)
     cout << v << " ";
-  }
   cout << endl;
-  g.reset();
 }
