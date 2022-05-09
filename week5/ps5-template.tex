@@ -1,0 +1,168 @@
+%
+% 6.006 problem set 5 solutions template
+%
+\documentclass[12pt,twoside]{article}
+
+\input{macros-sp20}
+\newcommand{\theproblemsetnum}{5}
+
+\title{6.006 Problem Set \theproblemsetnum}
+
+\begin{document}
+
+\handout{Problem Set \theproblemsetnum}
+
+\setlength{\parindent}{0pt}
+\medskip\hrulefill\medskip
+
+{\bf Name:} Your Name
+
+\medskip
+
+{\bf Collaborators:} Name1, Name2
+
+\medskip\hrulefill
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% See below for common and useful latex constructs. %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Some useful commands:
+%$f(x) = \Theta(x)$
+%$T(x, y) \leq \log(x) + 2^y + \binom{2n}{n}$
+% {\tt code\_function}
+
+
+% You can create unnumbered lists as follows:
+%\begin{itemize}
+%    \item First item in a list
+%        \begin{itemize}
+%            \item First item in a list
+%                \begin{itemize}
+%                    \item First item in a list
+%                    \item Second item in a list
+%                \end{itemize}
+%            \item Second item in a list
+%        \end{itemize}
+%    \item Second item in a list
+%\end{itemize}
+
+% You can create numbered lists as follows:
+%\begin{enumerate}
+%    \item First item in a list
+%    \item Second item in a list
+%    \item Third item in a list
+%\end{enumerate}
+
+% You can write aligned equations as follows:
+%\begin{align}
+%    \begin{split}
+%        (x+y)^3 &= (x+y)^2(x+y) \\
+%                &= (x^2+2xy+y^2)(x+y) \\
+%                &= (x^3+2x^2y+xy^2) + (x^2y+2xy^2+y^3) \\
+%                &= x^3+3x^2y+3xy^2+y^3
+%    \end{split}
+%\end{align}
+
+% You can create grids/matrices as follows:
+%\begin{align}
+%    A =
+%    \begin{bmatrix}
+%        A_{11} & A_{21} \\
+%        A_{21} & A_{22}
+%    \end{bmatrix}
+%\end{align}
+
+% You can include images and PDFs as follows:
+% \includegraphics[width=0.5\textwidth]{img.jpg}
+
+\begin{problems}
+
+\problem  % Problem 1
+
+\begin{problemparts}
+\problempart % Problem 1a
+\includegraphics[width=0.5\textwidth]{./imgs/img1.png}
+\problempart % Problem 1b
+\hfill
+\begin{lstlisting}
+  Adj ={
+    "A" : ["B"], 
+    "B" : ["C", "D"],
+    "C" : ["E", "F"],
+    "D" : ["E", "F"],
+    "E" : [],
+    "F" : ["E", "D"],
+  }
+\end{lstlisting}
+\newpage
+\problempart % Problem 1c
+\textbf{BFS : [A, B, C, D, E, F]} \\
+\includegraphics[width=0.5\textwidth]{./imgs/img2.png} \\
+\textbf{DFS : [A, B, C, E, F, D]} \\
+\includegraphics[width=0.5\textwidth]{./imgs/img3.png} 
+\problempart % Problem 1d
+  we can remove \textbf{(F, D)} which gives a \textbf{DAG} with a topological order of \textbf{[A, B, C, D, F, E]}\\
+  and \textbf{(D, F)} which gives a \textbf{DAG} with a topological order of \textbf{[A, B, C, F, D, E]}\\
+\end{problemparts}
+
+\newpage
+\problem  % Problem 2
+Construct a graph that contains the buildings and plants as its vertices and the edges are the wires in $O(n^4)$
+we want to install the generator at the plant connected to the largest number of buildings.
+
+this can be done by running a BFS from the plant and finding the largest number of buildings in a connected component.
+  G takes $O(n^4)$ time to construct. and BFS takes $O(n^4)$ time, so the overall time is $O(n^4)$.
+\newpage
+\problem  % Problem 3
+  Construct a graph $G = (V, E)$, $V$ is the set of friends which every two short-circuiting 
+  friends are connected by a single an edge in $E$. to make this party possible we need G to be a bipartite graph.
+  if $G$ is a bipartite graph, then: 
+  \begin{itemize}
+    \item G is 2-colorable. 
+    \item G does not contain any cycles of odd length.
+  \end{itemize}
+  
+  The following algorithm will do the job:
+  \begin{itemize}
+    \item run \textbf{Full-BFS} on $G$ and color evey vertex at even level with the same color of the source vertex.
+    \item check every edge in $E$ to see if it connects two vertices with the same color, 
+      if so then $G$ is not a bipartite graph and this party is not possible, else $G$ is a bipartite graph.
+  \end{itemize}
+
+  Time complexity: O(n)
+  \begin{itemize}
+  \item Constructing G is $O(n)$, because we have $n$ edges, and vertices are $O(n)$
+    because it is at most $2n$ vertices.
+  \item Running Full-BFS is $O(n)$, since it is linear in the graph size which is $O(n)$.
+  \item Checking every edge is $O(n)$.
+  \end{itemize}
+
+\newpage
+\problem  % Problem 4
+  Construct a graph $G = (V, E)$, $V$ is all squares that owned by a farmer $\implies$ (not a river square). 
+  and $E$ is the set of edges that connect two squares which are owned by the same farmer. \\
+  Run \textbf{BFS} on $G$ going through the discribed edges starting from a source node $s$ that is connected 
+  to every vertex in one of the rivers, so it returns the shortest path from $s$ to an adjacent vertex to the other river.
+  
+  
+  
+
+  
+
+\newpage
+\problem  % Problem 5
+
+\newpage
+\problem  % Problem 6
+
+\begin{problemparts}
+\problempart % Problem 6a
+\problempart % Problem 6b
+\problempart % Problem 6c
+\problempart Submit your implementation to {\small\url{alg.mit.edu}}.
+\end{problemparts}
+
+\end{problems}
+
+\end{document}
