@@ -1,0 +1,145 @@
+%
+% 6.006 problem set 6 solutions template
+%
+\documentclass[12pt,twoside]{article}
+
+\input{macros-sp20}
+\newcommand{\theproblemsetnum}{6}
+
+\title{6.006 Problem Set \theproblemsetnum}
+
+\begin{document}
+
+\handout{Problem Set \theproblemsetnum}
+
+\setlength{\parindent}{0pt}
+\medskip\hrulefill\medskip
+
+{\bf Name:} Your Name
+
+\medskip
+
+{\bf Collaborators:} Name1, Name2
+
+\medskip\hrulefill
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% See below for common and useful latex constructs. %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Some useful commands:
+%$f(x) = \Theta(x)$
+%$T(x, y) \leq \log(x) + 2^y + \binom{2n}{n}$
+% {\tt code\_function}
+
+
+% You can create unnumbered lists as follows:
+%\begin{itemize}
+%    \item First item in a list
+%        \begin{itemize}
+%            \item First item in a list
+%                \begin{itemize}
+%                    \item First item in a list
+%                    \item Second item in a list
+%                \end{itemize}
+%            \item Second item in a list
+%        \end{itemize}
+%    \item Second item in a list
+%\end{itemize}
+
+% You can create numbered lists as follows:
+%\begin{enumerate}
+%    \item First item in a list
+%    \item Second item in a list
+%    \item Third item in a list
+%\end{enumerate}
+
+% You can write aligned equations as follows:
+%\begin{align}
+%    \begin{split}
+%        (x+y)^3 &= (x+y)^2(x+y) \\
+%                &= (x^2+2xy+y^2)(x+y) \\
+%                &= (x^3+2x^2y+xy^2) + (x^2y+2xy^2+y^3) \\
+%                &= x^3+3x^2y+3xy^2+y^3
+%    \end{split}
+%\end{align}
+
+% You can create grids/matrices as follows:
+%\begin{align}
+%    A =
+%    \begin{bmatrix}
+%        A_{11} & A_{21} \\
+%        A_{21} & A_{22}
+%    \end{bmatrix}
+%\end{align}
+
+% You can include images and PDFs as follows:
+% \includegraphics[width=0.5\textwidth]{img.jpg}
+
+\begin{problems}
+
+\problem  % Problem 1
+|
+\begin{problemparts}
+\problempart % Problem 1a
+  \textbf{DAG Relaxation}: [(a, b), (a, d), (d, b), (d, e), (b, e), (b, c), (b, f), (e, f), (f, c)] \\
+  \\
+  \textbf{Dijkstra}: [(a,b), (a, d), (d, b), (b, c), (b, e), (b, f), (f, c), (e, f), (c, e)] \\
+\problempart % Problem 1b
+  % creat table of with 2 rows and 7 columns
+  \begin{tabular}{c|c c c c c c}
+    v & a & b & c & d & e & f \\
+  \hline
+    $\delta(s, v)$ & 0 & 2 & 3 & 6 & 5 & 4 \\
+  \end{tabular}
+\end{problemparts}
+
+\newpage
+\problem  % Problem 2
+General shortest path problem in which we can use Bellman-ford, knowing that there is always some path between every 
+two vertices with at most $k$ edges, implies that $|V|$ is upper bounded by $|E|$ $\rightarrow$ $|v| = O(|E|)$, and 
+we can perform \textbf{DAG Relaxation} for $k$ levels. 
+\begin{itemize}
+  \item \textbf{If G has no negative cycles:} 
+    Let $v \in V$ be any vertex. Consider path $p = \textless v_0, v_1, . . . , v_k⟩$ from $v_0 = s$ to $v_k = v$
+    that is a shortest path with minimum number of edges. No negative weight cycles $\rightarrow$ p is simple $\rightarrow$
+    $k \leq |V| - 1$. \\
+    After 1 pass through $E$, we have $d[v_1] = \delta(s, v_1)$, because we will relax the edge $(v_0, v_1)$ in this pass
+    and we can’t find a shorter path than this shortest path. 
+    After 2 passes through $E$, we have $d[v_2] = \delta(s, v_2)$, 
+     because in the second pass we will relax the edge $(v_1, v_2)$.
+    After $i$ passes through $E$, we have $d[v_i] = \delta(s, v_i)$.
+    After $k \leq |V| - 1$ passes through $E$, we have $d[v_k] = d[v] = \delta(s, v)$. 
+    this takes $O(k|E|)$. 
+  \item \textbf{If G has negative cycles:} we can perform the previous algorithm and then do \textbf{Bellman-ford} check
+    After $k$ passes, if we find an edge that can be relaxed, it means that the current
+    shortest path from $s$ to some vertex is not simple and vertices are repeated. Since this
+    cyclic path has less weight than any simple path the cycle has to be a negative-weight
+    cycle.
+\end{itemize}
+  \textbf{Bellman-ford} takes $O(|V|(|V| + |E|))$ as in this case we just relax on $k$ levels and $|v| = O(|E|)$ 
+  so $O(K|E|)$.
+\newpage
+\problem  % Problem 3
+  construct graph $G_1 = (V, E)$, $V$ is the clearings $c_i$ with the oroginal elevations $e_i$ and $E$ the slopes, 
+  same way construct graph $G_2 = (V, E)$, $V$ is the clearings $c_i$ with the elevations $e_i$ after all dynamite 
+  detonations and $E$ the slopes, compine $G_1$ and $G_2$ in graph $G$ with directed edges with zero-weight length from $D_1$ towards $D_2$. \\
+  \textbf{Claim:} G is a \textbf{DAG}. 
+  \textbf{proof:} as Bames will only traverse slopes so as to decrease her elevation, implies that all edges go from 
+  a higher $c_i$ to lower $c_j$ \Rightarrow directed, this also guarantees that Bames will not need to revisit a vertex 
+  more than once as he goes downhill only. \\
+
+  Run \textbf{DAG Relaxation} from $L_1$ to some vertex $T$ connected to $s_1$ and $s_2$ with 
+  edge with zero-weight length in $O(|E| + |v|) = O(n)$.
+\newpage
+\problem  % Problem 4
+
+\newpage
+\problem  % Problem 5
+
+\newpage
+\problem  % Problem 6
+
+\end{problems}
+
+\end{document}
