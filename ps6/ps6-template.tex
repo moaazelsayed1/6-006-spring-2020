@@ -124,9 +124,9 @@ we can perform \textbf{DAG Relaxation} for $k$ levels.
   construct graph $G_1 = (V, E)$, $V$ is the clearings $c_i$ with the oroginal elevations $e_i$ and $E$ the slopes, 
   same way construct graph $G_2 = (V, E)$, $V$ is the clearings $c_i$ with the elevations $e_i$ after all dynamite 
   detonations and $E$ the slopes, compine $G_1$ and $G_2$ in graph $G$ with directed edges with zero-weight length from $D_1$ towards $D_2$. \\
-  \textbf{Claim:} G is a \textbf{DAG}. 
+  \textbf{Claim:} G is a \textbf{DAG}. \\
   \textbf{proof:} as Bames will only traverse slopes so as to decrease her elevation, implies that all edges go from 
-  a higher $c_i$ to lower $c_j$ \Rightarrow directed, this also guarantees that Bames will not need to revisit a vertex 
+  a higher $c_i$ to lower $c_j$ $\Rightarrow$ directed, this also guarantees that Bames will not need to revisit a vertex 
   more than once as he goes downhill only. \\
 
   Run \textbf{DAG Relaxation} from $L_1$ to some vertex $T$ connected to $s_1$ and $s_2$ with 
