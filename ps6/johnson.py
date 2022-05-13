@@ -9,15 +9,35 @@ def johnson(n, S):
               |   or None if the input graph contains a negative-weight cycle
     '''
     D = [[INF for _ in range(n)] for _ in range(n)]
-    ##################
-    # YOUR CODE HERE #
-    ##################
+
+    Adj = [[] for _ in range(n)]
+    w = {}
+
+    for (u, v, weight) in S:
+        Adj[u].append(v);
+        w[(u, v)] = weight
+
+    Adj.append([i for i in range(n)])
+    for i in range(n):
+        w[(n, i)] = 0
+
+    def wbf(u, v): return w[(u, v)] 
+        
+    bellf = bellman_ford(Adj, wbf, n) 
+    if bellf is None: return None
+    
+    h,_ = bellf
+    def wdy(u, v): return w[(u, v)] + h[u] - h[v]
+
+    for u in range(n):
+        dy,_ = dijkstra(Adj, wdy, u)
+        for v in range(n):
+            if dy[v] < INF:
+                D[u][v] = dy[v] - h[u] + h[v]
+    
     D = tuple(tuple(row) for row in D)
     return D
 
-####################################
-# USE BUT DO NOT MODIFY CODE BELOW #
-####################################
 def bellman_ford(Adj, w, s):    # from R12
     '''
     Input: Adj | Direct access array mapping a vertex to a list of adjacencies

@@ -133,12 +133,64 @@ we can perform \textbf{DAG Relaxation} for $k$ levels.
   edge with zero-weight length in $O(|E| + |v|) = O(n)$.
 \newpage
 \problem  % Problem 4
+  construct graph $G = (V, E)$, $V$ is the locations in which practile can exist, $E$ is the transitions
+  $(l_i, l_j, w_ij)$ with directed edges from location $i$ to location $j$.
+  
+\begin{itemize}
+  \item Add a supernode $s$ connected to all vertex $v \in V \Rightarrow O(n) vertices and O(2n = O(n) edges)$. 
+  \item Run \textbf{Bellman-ford} from $s$ to detect negative-weight cycles. 
+  \item if there is no negative-weight cycles negate all weights and run \textbf{Bellman-ford} again. 
+  \item if there is no positive-weight cylces then the force is conservative. 
+\end{itemize}
 
 \newpage
 \problem  % Problem 5
 
 \newpage
 \problem  % Problem 6
+
+\begin{lstlisting}
+
+def johnson(n, S):
+    '''
+    Input:  n | Number of vertices in the graph
+            S | Tuple of triples (u, v, w) representing edge (u, v) of weight w
+    Output: D | Tuple of tuples where D[u][v] is the distance from u to v
+              |   or INF if v is not reachable from u
+              |   or None if the input graph contains a negative-weight cycle
+    '''
+    D = [[INF for _ in range(n)] for _ in range(n)]
+
+    Adj = [[] for _ in range(n)]
+    w = {}
+
+    for (u, v, weight) in S:
+        Adj[u].append(v);
+        w[(u, v)] = weight
+
+    Adj.append([i for i in range(n)])
+    for i in range(n):
+        w[(n, i)] = 0
+
+    def wbf(u, v): return w[(u, v)] 
+        
+    bellf = bellman_ford(Adj, wbf, n) 
+    if bellf is None: return None
+    
+    h,_ = bellf
+    def wdy(u, v): return w[(u, v)] + h[u] - h[v]
+
+    for u in range(n):
+        dy,_ = dijkstra(Adj, wdy, u)
+        for v in range(n):
+            if dy[v] < INF:
+                D[u][v] = dy[v] - h[u] + h[v]
+    
+    D = tuple(tuple(row) for row in D)
+    return D
+
+
+\end{lstlisting}
 
 \end{problems}
 
