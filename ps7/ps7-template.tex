@@ -1,0 +1,190 @@
+%
+% 6.006 problem set 7 solutions template
+%
+\documentclass[12pt,twoside]{article}
+
+\input{macros-sp20}
+\newcommand{\theproblemsetnum}{7}
+
+\title{6.006 Problem Set 7}
+
+\begin{document}
+
+\handout{Problem Set \theproblemsetnum}
+
+\setlength{\parindent}{0pt}
+\medskip\hrulefill\medskip
+
+{\bf Name:} Your Name
+
+\medskip
+
+{\bf Collaborators:} Name1, Name2
+
+\medskip\hrulefill
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% See below for common and useful latex constructs. %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Some useful commands:
+%$f(x) = \Theta(x)$
+%$T(x, y) \leq \log(x) + 2^y + \binom{2n}{n}$
+% {\tt code\_function}
+
+
+% You can create unnumbered lists as follows:
+%\begin{itemize}
+%    \item First item in a list
+%        \begin{itemize}
+%            \item First item in a list
+%                \begin{itemize}
+%                    \item First item in a list
+%                    \item Second item in a list
+%                \end{itemize}
+%            \item Second item in a list
+%        \end{itemize}
+%    \item Second item in a list
+%\end{itemize}
+
+% You can create numbered lists as follows:
+%\begin{enumerate}
+%    \item First item in a list
+%    \item Second item in a list
+%    \item Third item in a list
+%\end{enumerate}
+
+% You can write aligned equations as follows:
+%\begin{align}
+%    \begin{split}
+%        (x+y)^3 &= (x+y)^2(x+y) \\
+%                &= (x^2+2xy+y^2)(x+y) \\
+%                &= (x^3+2x^2y+xy^2) + (x^2y+2xy^2+y^3) \\
+%                &= x^3+3x^2y+3xy^2+y^3
+%    \end{split}
+%\end{align}
+
+% You can create grids/matrices as follows:
+%\begin{align}
+%    A =
+%    \begin{bmatrix}
+%        A_{11} & A_{21} \\
+%        A_{21} & A_{22}
+%    \end{bmatrix}
+%\end{align}
+
+% You can include images and PDFs as follows:
+% \includegraphics[width=0.5\textwidth]{img.jpg}
+
+\begin{problems}
+
+\problem  % Problem 1
+\\
+  \textbf{Subproblem}: $x(i)$ is the maximum number of delegations from day $i$ to day $n$. (suffixes), $i \in {1, \dots , n + 1}$ \\
+  \textbf{Relate}: 
+  \begin{itemize}
+    \item we choose whether to campaign on day $i$ or not.
+    \item take the maximum from $z$ and $d$ within days $i, i+1, i+2$. 
+    \item $x(i) = max{(d_i + z_{i-1)} + z_{i-2} + x(i + 3)), (z_i + x(i + 1))}$  
+  \end{itemize}
+  \textbf{Topological Ordering:} $i$ is decreasing, and $x(i)$ requires $x(i+1)$ and $x(i+3)$. \\
+  \textbf{Base:} 
+  \begin{itemize}
+    \item $x(n+1) = 0$
+    \item $x(n) = d_n$
+    \item $x(n-1) = max{(d_{n-1} + z_n), (d_n + z_{n-1})}$
+  \end{itemize}
+  \textbf{Original problem:}
+  \begin{itemize}
+    \item check whether $x(0)$ is greater than $\lfloor D / 2 \rfloor + 1$ and determine if she win or not.
+  \end{itemize}
+
+  \textbf{Time:} 
+  \begin{itemize}
+    \item sum $D$ of all delegations from day $i$ to day $n$ is $O(n)$.
+    \item $n$ Subproblems each takes $O(1)$ time. 
+    \item total time is $O(n)$.
+  \end{itemize}
+\newpage
+\problem  % Problem 2
+\begin{itemize}
+  \item sort tigers by their age in decreasing order. $T$
+  \item sort cages by their capacity in increasing order. $C$
+  \item using dynamic programming, match the tigers $T$ with subsequance of $C$ with minimum discomfort $s_i - c_j$.
+\end{itemize}
+  \textbf{Subproblem:}
+  \begin{itemize}
+    \item $x|(i, j)$: min total discomfort, matching $T[i:]$ with $C[j:]$.
+    \item $i \in {0, 1, \dots, n}$
+    \item $j \in {0, 1, \dots, n^2}$
+  \end{itemize}
+
+  \textbf{Relate:}
+  \begin{itemize}
+    \item $d(i,j) = s_i - c_j \geq 0$
+    \item $x(i, j) = min{d(i, j) + x(i + 1, j +1), x(i, j+1)}$
+  \end{itemize}
+  
+  \textbf{Topological Ordering:} $i$ and $j$ are decreasing, and $x(i, j)$ requires $x(i + 1, j + 1)$ and $x(i, j + 1)$. \\
+
+  \textbf{Base:}
+  \begin{itemize}
+    \item $x(n, j) = 0$
+    \item $x(i, n^2) = \infty$
+  \end{itemize}
+
+  \textbf{Original problem:}
+  \begin{itemize}
+    \item $x(0, 0)$ is the minimum total discomfort.
+    \item store parent of each node in a matrix $P$ to reconstruct the solution.
+  \end{itemize}
+
+  \textbf{Time:}
+  \begin{itemize}
+    \item $O(n^3)$ Subproblems each takes $O(1)$ time.
+    \item $O(n^3)$ time 
+  \end{itemize}
+
+\newpage
+\problem  % Problem 3
+\textbf{Subproblem:} \\
+$x(u, t): $ contains weights of all paths from $u$ to $t$ for $u \in V$. \\
+$L(u, n): $ number of odd paths from $u$ to $n$ \\
+\textbf{Relate:} 
+\begin{itemize}
+  \item $x(u, t)$ = $\sum_{j \in Adj^+(u)} x(u + 1, t, n) + w(u, j)$
+  \item $L(u, n)$ = $L(u, n) + 1$ for every odd path from $u$ to $n$ in $x(u, t)$.
+\end{itemize}
+
+\textbf{Topological Ordering:} $x(u, t)$ requires $x(u + 1, t, n)$ which is calculated before $x(u, t)$. \\
+
+  \textbf{Base:}
+  \begin{itemize}
+    \item $x(t, t) = 0$
+    \item $L(i, j) = 0$
+  \end{itemize}
+
+  \textbf{Original problem:}
+  \begin{itemize}
+    \item $L(s, t)$ is the number of odd paths from $s$ to $t$.
+  \end{itemize}
+
+  \textbf{Time:}
+  \begin{itemize}
+    \item $|V|$ Subproblem each takes $2\sum_{u \in v} deg^+(v) = O(|V| + |E|)$
+  \end{itemize}
+\newpage
+\problem  % Problem 4
+same as \textbf{Coins} problem in lecture 16 but choose a subarray every time rather than a single coin.
+
+\newpage
+\problem  % Problem 5
+
+\begin{problemparts}
+\problempart % Problem 5a
+\problempart Submit your implementation to {\small\url{alg.mit.edu}}.
+\end{problemparts}
+
+\end{problems}
+
+\end{document}
